@@ -1,0 +1,59 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Create Occupancy Helper",
+        "description": "Combine multiple motion, presence, or contact sensors into a unified occupancy entity with configurable logic, delay-off countdown, and dynamic state icons.",
+        "data": {
+          "name": "Name",
+          "sensors": "Monitored Sensors",
+          "logic": "Evaluation Logic",
+          "delay_off": "Delay Off Duration",
+          "active_icon": "Occupied Icon (optional)",
+          "idle_icon": "Clear / Idle Icon (optional)",
+          "device_class": "Device Class"
+        },
+        "data_description": {
+          "sensors": "Select binary sensors (presence, motion, door contact) or boolean helpers.",
+          "delay_off": "Keep the room marked as occupied for this duration after all sensors have turned off.",
+          "active_icon": "Icon shown when room is occupied (e.g., mdi:bed or mdi:motion-sensor).",
+          "idle_icon": "Icon shown when room is clear (e.g., mdi:bed-empty or mdi:motion-sensor-off)."
+        }
+      }
+    },
+    "error": {
+      "empty_name": "Please provide a name.",
+      "empty_sensors": "Please select at least one sensor."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Occupancy Helper",
+        "description": "Adjust sensors, evaluation logic, delay-off duration, or custom icons.",
+        "data": {
+          "sensors": "Monitored Sensors",
+          "logic": "Evaluation Logic",
+          "delay_off": "Delay Off Duration",
+          "active_icon": "Occupied Icon (optional)",
+          "idle_icon": "Clear / Idle Icon (optional)",
+          "device_class": "Device Class"
+        },
+        "data_description": {
+          "delay_off": "Keep the room marked as occupied for this duration after all sensors have turned off."
+        }
+      }
+    },
+    "error": {
+      "empty_sensors": "Please select at least one sensor."
+    }
+  },
+  "selector": {
+    "logic": {
+      "options": {
+        "or": "OR (Occupied if ANY sensor is active)",
+        "and": "AND (Occupied only if ALL sensors are active)"
+      }
+    }
+  }
+}
