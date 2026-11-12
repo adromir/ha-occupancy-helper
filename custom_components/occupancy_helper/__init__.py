@@ -27,3 +27,4 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Reload config entry when options are updated."""
     await hass.config_entries.async_reload(entry.entry_id)
     return True
+

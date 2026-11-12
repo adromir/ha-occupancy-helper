@@ -29,12 +29,14 @@ from .const import (
     ATTR_LAST_TRIGGER_SENSOR,
     ATTR_LOGIC,
     ATTR_SENSORS,
+    ATTR_TIMER_ENTITY,
     CONF_ACTIVE_ICON,
     CONF_DELAY_OFF,
     CONF_DEVICE_CLASS,
     CONF_IDLE_ICON,
     CONF_LOGIC,
     CONF_SENSORS,
+    CONF_TIMER_ENTITY,
     DEFAULT_DEVICE_CLASS,
     DEFAULT_LOGIC,
     DEFAULT_NAME,
@@ -110,6 +112,7 @@ class OccupancyBinarySensor(BinarySensorEntity):
         self._logic: str = config.get(CONF_LOGIC, DEFAULT_LOGIC)
         self._delay_off_config = config.get(CONF_DELAY_OFF, {"minutes": 0, "seconds": 0})
         self._delay_seconds = parse_delay_seconds(self._delay_off_config)
+        self._timer_entity: str | None = config.get(CONF_TIMER_ENTITY) or None
 
         self._active_icon: str | None = config.get(CONF_ACTIVE_ICON) or None
         self._idle_icon: str | None = config.get(CONF_IDLE_ICON) or None
@@ -144,54 +147,91 @@ class OccupancyBinarySensor(BinarySensorEntity):
             ATTR_SENSORS: self._sensors,
             ATTR_ACTIVE_SENSORS: self._active_sensors,
             ATTR_LOGIC: self._logic,
-            ATTR_DELAY_OFF: self._delay_seconds,
+            ATTR_DELAY_OFF: self._get_effective_delay_seconds(),
             ATTR_DELAY_OFF_ACTIVE: self._delay_off_active,
+            ATTR_TIMER_ENTITY: self._timer_entity,
             ATTR_LAST_TRIGGER_SENSOR: self._last_trigger_sensor,
         }
 
     async def async_added_to_hass(self) -> None:
         """Register state listeners when added to hass."""
-        if self._sensors:
+        tracked_entities = list(self._sensors)
+        if self._timer_entity and self._timer_entity not in tracked_entities:
+            tracked_entities.append(self._timer_entity)
+
+        if tracked_entities:
             self.async_on_remove(
                 async_track_state_change_event(
                     self.hass,
-                    self._sensors,
-                    self._async_sensor_state_changed,
+                    tracked_entities,
+                    self._async_tracked_state_changed,
                 )
             )
         self._evaluate_state(initial=True)
 
     async def async_will_remove_from_hass(self) -> None:
         """Clean up timers when removing entity."""
-        self._cancel_delay_timer()
+        self._cancel_internal_delay()
+
+    def _get_effective_delay_seconds(self) -> float:
+        """Get delay in seconds, supporting dynamic input_number entities."""
+        if self._timer_entity and self._timer_entity.startswith("input_number."):
+            state = self.hass.states.get(self._timer_entity)
+            if state is not None:
+                try:
+                    val = float(state.state)
+                    unit = state.attributes.get("unit_of_measurement", "").lower()
+                    if "min" in unit:
+                        return max(0.0, val * 60)
+                    if "h" in unit:
+                        return max(0.0, val * 3600)
+                    return max(0.0, val)
+                except (ValueError, TypeError):
+                    pass
+        return self._delay_seconds
 
     @callback
-    def _cancel_delay_timer(self) -> None:
-        """Cancel any pending delayed off timer."""
+    def _cancel_internal_delay(self) -> None:
+        """Cancel internal async_call_later timer."""
         if self._unsub_delay is not None:
             self._unsub_delay()
             self._unsub_delay = None
-        self._delay_off_active = False
 
     @callback
-    def _async_sensor_state_changed(self, event: Event) -> None:
-        """Handle state change of any monitored sensor."""
-        changed_entity = event.data.get("entity_id")
+    def _async_tracked_state_changed(self, event: Event) -> None:
+        """Handle state change of monitored sensors or linked timer entity."""
+        entity_id = event.data.get("entity_id")
         new_state = event.data.get("new_state")
-        
-        if new_state and new_state.state.strip().lower() in ACTIVE_STATES:
-            self._last_trigger_sensor = changed_entity
 
-        self._evaluate_state()
-        self.async_write_ha_state()
+        # Case 1: Linked timer entity changed
+        if entity_id == self._timer_entity and self._timer_entity:
+            if self._timer_entity.startswith("timer."):
+                if new_state and new_state.state in ("idle", "paused"):
+                    self._evaluate_active_sensors()
+                    if not self._is_raw_occupied():
+                        self._attr_is_on = False
+                        self._delay_off_active = False
+                        self.async_write_ha_state()
+                elif new_state and new_state.state == "active":
+                    self._delay_off_active = True
+                    self._attr_is_on = True
+                    self.async_write_ha_state()
+                return
+
+        # Case 2: Monitored sensor changed
+        if entity_id in self._sensors:
+            if new_state and new_state.state.strip().lower() in ACTIVE_STATES:
+                self._last_trigger_sensor = entity_id
+
+            self._evaluate_state()
+            self.async_write_ha_state()
 
     @callback
-    def _async_delay_off_expired(self, _now: Any) -> None:
-        """Handle expiration of delay_off timer."""
+    def _async_internal_delay_expired(self, _now: Any) -> None:
+        """Handle expiration of internal delay_off timer."""
         self._unsub_delay = None
         self._delay_off_active = False
 
-        # Re-verify sensor states
         self._evaluate_active_sensors()
         if not self._is_raw_occupied():
             self._attr_is_on = False
@@ -227,39 +267,79 @@ class OccupancyBinarySensor(BinarySensorEntity):
 
     @callback
     def _evaluate_state(self, initial: bool = False) -> None:
-        """Evaluate occupancy state with delay_off logic."""
+        """Evaluate occupancy state with internal timer or external timer entity."""
         self._evaluate_active_sensors()
 
         if not self._attr_available:
-            self._cancel_delay_timer()
+            self._cancel_internal_delay()
+            self._delay_off_active = False
             self._attr_is_on = None
             return
 
         raw_occupied = self._is_raw_occupied()
 
         if raw_occupied:
-            # Active occupancy: cancel pending turn-off timer immediately
-            self._cancel_delay_timer()
+            # Active movement / presence detected
+            self._cancel_internal_delay()
+            self._delay_off_active = False
             self._attr_is_on = True
+
+            # If external timer is active, cancel it so it resets
+            if self._timer_entity and self._timer_entity.startswith("timer."):
+                timer_state = self.hass.states.get(self._timer_entity)
+                if timer_state and timer_state.state == "active":
+                    self.hass.async_create_task(
+                        self.hass.services.async_call(
+                            "timer", "cancel", {"entity_id": self._timer_entity}
+                        )
+                    )
+
             if not self._last_trigger_sensor and self._active_sensors:
                 self._last_trigger_sensor = self._active_sensors[0]
 
         else:
             # Sensors clear
             if self._attr_is_on:
-                if self._delay_seconds > 0 and not initial:
-                    # Start or maintain delay_off timer
+                effective_delay = self._get_effective_delay_seconds()
+
+                if self._timer_entity and self._timer_entity.startswith("timer."):
+                    if not initial:
+                        service_data: dict[str, Any] = {
+                            "entity_id": self._timer_entity
+                        }
+                        if effective_delay > 0:
+                            service_data["duration"] = int(effective_delay)
+
+                        self.hass.async_create_task(
+                            self.hass.services.async_call(
+                                "timer", "start", service_data
+                            )
+                        )
+                        self._delay_off_active = True
+                        self._attr_is_on = True
+                    else:
+                        timer_state = self.hass.states.get(self._timer_entity)
+                        if timer_state and timer_state.state == "active":
+                            self._delay_off_active = True
+                            self._attr_is_on = True
+                        else:
+                            self._delay_off_active = False
+                            self._attr_is_on = False
+
+                elif effective_delay > 0 and not initial:
                     if self._unsub_delay is None:
                         self._delay_off_active = True
                         self._unsub_delay = async_call_later(
                             self.hass,
-                            self._delay_seconds,
-                            self._async_delay_off_expired,
+                            effective_delay,
+                            self._async_internal_delay_expired,
                         )
+                        self._attr_is_on = True
                 else:
-                    # Immediate turn off
-                    self._cancel_delay_timer()
+                    self._cancel_internal_delay()
+                    self._delay_off_active = False
                     self._attr_is_on = False
             else:
-                self._cancel_delay_timer()
+                self._cancel_internal_delay()
+                self._delay_off_active = False
                 self._attr_is_on = False

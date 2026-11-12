@@ -3,12 +3,13 @@
     "step": {
       "user": {
         "title": "Create Occupancy Helper",
-        "description": "Combine multiple motion, presence, or contact sensors into a unified occupancy entity with configurable logic, delay-off countdown, and dynamic state icons.",
+        "description": "Combine multiple motion, presence, or contact sensors into a unified occupancy entity with configurable logic, hold time, linked timer entity, and dynamic state icons.",
         "data": {
           "name": "Name",
           "sensors": "Monitored Sensors",
           "logic": "Evaluation Logic",
-          "delay_off": "Delay Off Duration",
+          "delay_off": "Manual Delay Off Duration",
+          "timer_entity": "Linked Timer or Duration Helper (optional)",
           "active_icon": "Occupied Icon (optional)",
           "idle_icon": "Clear / Idle Icon (optional)",
           "device_class": "Device Class"
@@ -16,6 +17,7 @@
         "data_description": {
           "sensors": "Select binary sensors (presence, motion, door contact) or boolean helpers.",
           "delay_off": "Keep the room marked as occupied for this duration after all sensors have turned off.",
+          "timer_entity": "Optional linked helper: Select a 'timer.*' entity to start a visual countdown when sensors clear (room turns off when timer finishes), or an 'input_number.*' entity for dynamic delay duration.",
           "active_icon": "Icon shown when room is occupied (e.g., mdi:bed or mdi:motion-sensor).",
           "idle_icon": "Icon shown when room is clear (e.g., mdi:bed-empty or mdi:motion-sensor-off)."
         }
@@ -30,17 +32,19 @@
     "step": {
       "init": {
         "title": "Configure Occupancy Helper",
-        "description": "Adjust sensors, evaluation logic, delay-off duration, or custom icons.",
+        "description": "Adjust sensors, evaluation logic, hold time, linked timer helper, or custom icons.",
         "data": {
           "sensors": "Monitored Sensors",
           "logic": "Evaluation Logic",
-          "delay_off": "Delay Off Duration",
+          "delay_off": "Manual Delay Off Duration",
+          "timer_entity": "Linked Timer or Duration Helper (optional)",
           "active_icon": "Occupied Icon (optional)",
           "idle_icon": "Clear / Idle Icon (optional)",
           "device_class": "Device Class"
         },
         "data_description": {
-          "delay_off": "Keep the room marked as occupied for this duration after all sensors have turned off."
+          "delay_off": "Keep the room marked as occupied for this duration after all sensors have turned off.",
+          "timer_entity": "Select a 'timer.*' entity to start a visual countdown when sensors clear, or an 'input_number.*' entity for dynamic delay duration."
         }
       }
     },

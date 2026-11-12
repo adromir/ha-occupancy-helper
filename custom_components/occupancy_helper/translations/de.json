@@ -3,12 +3,13 @@
     "step": {
       "user": {
         "title": "Belegungs-Helfer erstellen",
-        "description": "Kombiniert mehrere Bewegungs-, Präsenz- oder Türkontaktsensoren zu einer einheitlichen Belegungs-Entität mit konfigurierbarer Logik, Nachlaufzeit (Delay Off) und dynamischen Status-Icons.",
+        "description": "Kombiniert mehrere Bewegungs-, Präsenz- oder Türkontaktsensoren zu einer einheitlichen Belegungs-Entität mit konfigurierbarer Logik, Nachlaufzeit, verknüpftem Timer-Helfer und dynamischen Status-Icons.",
         "data": {
           "name": "Name",
           "sensors": "Überwachte Sensoren",
           "logic": "Auswertungs-Logik",
-          "delay_off": "Nachlaufzeit (Delay Off)",
+          "delay_off": "Manuelle Nachlaufzeit (Delay Off)",
+          "timer_entity": "Verknüpfter Timer- oder Dauer-Helfer (optional)",
           "active_icon": "Icon bei Belegung (optional)",
           "idle_icon": "Icon bei Abwesenheit / Leer (optional)",
           "device_class": "Geräteklasse"
@@ -16,6 +17,7 @@
         "data_description": {
           "sensors": "Wähle Binärsensoren (Präsenz, Bewegung, Kontakt) oder Boolean-Helfer aus.",
           "delay_off": "Hält den Raum nach dem Ausschalten aller Sensoren für diese Zeitspanne noch als belegt markiert.",
+          "timer_entity": "Optionaler Helfer: Wähle eine 'timer.*'-Entität, um bei Inaktivität einen visuellen Countdown zu starten (Raum schaltet aus wenn der Timer abläuft), oder ein 'input_number.*' für dynamische Nachlaufzeiten.",
           "active_icon": "Wird angezeigt, wenn der Raum belegt ist (z. B. mdi:bed oder mdi:motion-sensor).",
           "idle_icon": "Wird angezeigt, wenn der Raum frei ist (z. B. mdi:bed-empty oder mdi:motion-sensor-off)."
         }
@@ -30,17 +32,19 @@
     "step": {
       "init": {
         "title": "Belegungs-Helfer bearbeiten",
-        "description": "Passe überwachte Sensoren, Logik, Nachlaufzeit oder benutzerdefinierte Icons an.",
+        "description": "Passe überwachte Sensoren, Logik, Nachlaufzeit, verknüpften Timer-Helfer oder benutzerdefinierte Icons an.",
         "data": {
           "sensors": "Überwachte Sensoren",
           "logic": "Auswertungs-Logik",
-          "delay_off": "Nachlaufzeit (Delay Off)",
+          "delay_off": "Manuelle Nachlaufzeit (Delay Off)",
+          "timer_entity": "Verknüpfter Timer- oder Dauer-Helfer (optional)",
           "active_icon": "Icon bei Belegung (optional)",
           "idle_icon": "Icon bei Abwesenheit / Leer (optional)",
           "device_class": "Geräteklasse"
         },
         "data_description": {
-          "delay_off": "Hält den Raum nach dem Ausschalten aller Sensoren für diese Zeitspanne noch als belegt markiert."
+          "delay_off": "Hält den Raum nach dem Ausschalten aller Sensoren für diese Zeitspanne noch als belegt markiert.",
+          "timer_entity": "Wähle eine 'timer.*'-Entität für sichtbaren Countdown oder ein 'input_number.*' für dynamische Dauer."
         }
       }
     },

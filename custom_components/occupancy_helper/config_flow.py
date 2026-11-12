@@ -16,6 +16,7 @@ from .const import (
     CONF_SENSORS,
     CONF_LOGIC,
     CONF_DELAY_OFF,
+    CONF_TIMER_ENTITY,
     CONF_ACTIVE_ICON,
     CONF_IDLE_ICON,
     CONF_DEVICE_CLASS,
@@ -79,6 +80,11 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     CONF_DELAY_OFF, default={"minutes": 0, "seconds": 0}
                 ): selector.DurationSelector(
                     selector.DurationSelectorConfig(enable_day=False)
+                ),
+                vol.Optional(CONF_TIMER_ENTITY): selector.EntitySelector(
+                    selector.EntitySelectorConfig(
+                        domain=["timer", "input_number"]
+                    )
                 ),
                 vol.Optional(
                     CONF_ACTIVE_ICON,
@@ -170,6 +176,16 @@ class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):
                     ),
                 ): selector.DurationSelector(
                     selector.DurationSelectorConfig(enable_day=False)
+                ),
+                vol.Optional(
+                    CONF_TIMER_ENTITY,
+                    description={
+                        "suggested_value": current_data.get(CONF_TIMER_ENTITY, "")
+                    },
+                ): selector.EntitySelector(
+                    selector.EntitySelectorConfig(
+                        domain=["timer", "input_number"]
+                    )
                 ),
                 vol.Optional(
                     CONF_ACTIVE_ICON,

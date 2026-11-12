@@ -7,5 +7,6 @@
   "issue_tracker": "https://github.com/adromir/ha-occupancy-helper/issues",
   "integration_type": "helper",
   "iot_class": "calculated",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
+

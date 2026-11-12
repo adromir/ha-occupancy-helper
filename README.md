@@ -47,7 +47,10 @@ With the **Occupancy Helper**, you create and configure this entire logic in sec
 - 🔀 **Configurable Logic**:
   - **`OR` (Default)**: Room is marked occupied if **any** sensor detects motion or presence.
   - **`AND`**: Room is marked occupied only when **all** selected conditions are active.
-- ⏱️ **Integrated Hold Time (`delay_off`)**: Native duration countdown that keeps the room occupied after sensors go idle (e.g. 5 minutes). Automatically cancels and resets if any movement is detected during the countdown.
+- ⏱️ **Integrated Hold Time (`delay_off`) & Linked Timer Helpers**:
+  - **Internal Timer**: Native duration countdown keeping the room occupied after sensors go idle (e.g. 5 minutes). Automatically cancels and resets if any movement occurs.
+  - **Linked `timer.*` Entity**: Trigger an external Home Assistant timer helper for a live visual countdown in Lovelace dashboards. Room stays occupied while the timer is `active` and turns off when the timer finishes (`idle`).
+  - **Linked `input_number.*` Entity**: Dynamically adjust the hold duration on the fly via a slider or dashboard card without opening settings!
 - 🎨 **Dynamic Contextual Icons**: Choose custom icons for both active and clear states (e.g. `mdi:bed` when occupied, `mdi:bed-empty` when clear; or `mdi:sofa` / `mdi:sofa-outline`).
 - 🏷️ **Rich State Attributes**: Exposes `sensors`, `active_sensors`, `logic`, `delay_off`, `delay_off_active`, and `last_trigger_sensor`.
 - ⚙️ **Full Reconfiguration**: Modify sensors, duration, or logic at any time via the UI Options Flow without reloading Home Assistant.
@@ -103,3 +106,4 @@ This project is open-source under the [MIT License](LICENSE).
 
 **Author**: [Adromir](https://github.com/adromir)  
 Website: [https://github.com/adromir](https://github.com/adromir)
+
