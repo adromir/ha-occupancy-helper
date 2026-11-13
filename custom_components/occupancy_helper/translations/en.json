@@ -30,6 +30,10 @@
   },
   "options": {
     "step": {
+      "base": {
+        "title": "Occupancy Helper Integration",
+        "description": "Occupancy Helper is active and ready. You can create room occupancy helpers anytime under Settings > Devices & Services > Helpers > Create Helper."
+      },
       "init": {
         "title": "Configure Occupancy Helper",
         "description": "Adjust sensors, evaluation logic, hold time, linked timer helper, or custom icons.",

@@ -1,0 +1,30 @@
+<svg width="1024" height="320" viewBox="0 0 1024 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Icon Mark -->
+  <g transform="translate(16, -16) scale(0.68)">
+    <g fill="#f8fafc" stroke="#f8fafc" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="136" y="88" width="240" height="28" rx="8" fill="#f8fafc" stroke="none" />
+      <path d="M 196 116 A 60 60 0 0 0 316 116 Z" fill="#f8fafc" stroke="none" />
+      <path d="M 192 232 A 90 90 0 0 0 218 244" fill="none" stroke-width="18" />
+      <path d="M 294 244 A 90 90 0 0 0 320 232" fill="none" stroke-width="18" />
+      <path d="M 158 288 A 150 150 0 0 0 200 312" fill="none" stroke-width="18" />
+      <path d="M 312 312 A 150 150 0 0 0 354 288" fill="none" stroke-width="18" />
+      <path d="M 120 348 A 210 210 0 0 0 220 388" fill="none" stroke-width="18" />
+      <path d="M 292 388 A 210 210 0 0 0 392 348" fill="none" stroke-width="18" />
+      <circle cx="256" cy="264" r="22" fill="#f8fafc" stroke="none" />
+      <path d="M 230 298 C 224 298, 220 302, 220 308 L 220 366 C 220 371, 224 374, 229 374 C 234 374, 238 371, 238 366 L 238 322 L 242 322 L 242 434 C 242 440, 246 444, 252 444 L 260 444 C 266 444, 270 440, 270 434 L 270 322 L 274 322 L 274 366 C 274 371, 278 374, 283 374 C 288 374, 292 371, 292 366 L 292 308 C 292 302, 288 298, 282 298 Z" fill="#f8fafc" stroke="none" />
+    </g>
+  </g>
+
+  <!-- Typography on Right -->
+  <g transform="translate(360, 96)">
+    <!-- Title -->
+    <text x="0" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#ffffff" letter-spacing="-1">
+      Occupancy <tspan fill="#38bdf8">Helper</tspan>
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="102" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" font-weight="500" fill="#cbd5e1" letter-spacing="0.5">
+      Home Assistant Presence &amp; Motion Fusion
+    </text>
+  </g>
+</svg>

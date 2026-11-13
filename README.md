@@ -1,5 +1,9 @@
 # 🛏️ Occupancy Helper for Home Assistant
 
+<p align="center">
+  <img src="custom_components/occupancy_helper/brand/logo.png" alt="Occupancy Helper Logo" width="512">
+</p>
+
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=adromir&repository=ha-occupancy-helper&category=integration)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/default)
 [![GitHub Release](https://img.shields.io/github/v/release/adromir/ha-occupancy-helper?style=for-the-badge&color=blue)](https://github.com/adromir/ha-occupancy-helper/releases)

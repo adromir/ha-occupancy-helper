@@ -41,6 +41,15 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle the initial setup step."""
         errors: dict[str, str] = {}
 
+        # When the integration is freshly installed (no entries exist yet),
+        # automatically create the base integration entry silently without forcing
+        # a helper creation dialog.
+        if not self._async_current_entries() and user_input is None:
+            return self.async_create_entry(
+                title="Occupancy Helper",
+                data={"is_base": True},
+            )
+
         if user_input is not None:
             name = user_input.get(CONF_NAME, "").strip()
             sensors = user_input.get(CONF_SENSORS, [])
@@ -119,9 +128,37 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(
         config_entry: config_entries.ConfigEntry,
-    ) -> OccupancyHelperOptionsFlow:
+    ) -> config_entries.OptionsFlow:
         """Get the options flow for this handler."""
+        if config_entry.data.get("is_base"):
+            return OccupancyHelperBaseOptionsFlow(config_entry)
         return OccupancyHelperOptionsFlow(config_entry)
+
+
+class OccupancyHelperBaseOptionsFlow(config_entries.OptionsFlow):
+    """Handle options for base Occupancy Helper integration."""
+
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize base options flow."""
+        self.config_entry = config_entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage base options."""
+        return await self.async_step_base(user_input)
+
+    async def async_step_base(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Show base integration information."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data={})
+
+        return self.async_show_form(
+            step_id="base",
+            data_schema=vol.Schema({}),
+        )
 
 
 class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):

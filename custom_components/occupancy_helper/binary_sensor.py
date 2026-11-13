@@ -91,6 +91,8 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Occupancy binary sensor from config entry."""
+    if entry.data.get("is_base"):
+        return
     async_add_entities([OccupancyBinarySensor(entry)], True)
 
 

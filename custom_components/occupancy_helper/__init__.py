@@ -13,6 +13,8 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Occupancy Helper from a config entry."""
+    if entry.data.get("is_base"):
+        return True
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
@@ -20,6 +22,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    if entry.data.get("is_base"):
+        return True
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
