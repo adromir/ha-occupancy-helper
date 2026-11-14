@@ -147,7 +147,12 @@ class OccupancyHelperBaseOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize base options flow."""
-        self.config_entry = config_entry
+        self._config_entry = config_entry
+
+    @property
+    def config_entry(self) -> config_entries.ConfigEntry:
+        """Return the config entry."""
+        return getattr(self, "_config_entry", None) or super().config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
@@ -173,7 +178,12 @@ class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        self.config_entry = config_entry
+        self._config_entry = config_entry
+
+    @property
+    def config_entry(self) -> config_entries.ConfigEntry:
+        """Return the config entry."""
+        return getattr(self, "_config_entry", None) or super().config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
