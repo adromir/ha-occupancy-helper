@@ -1,4 +1,11 @@
 {
+  "entity": {
+    "binary_sensor": {
+      "occupancy_helper": {
+        "name": "Occupancy Helper"
+      }
+    }
+  },
   "config": {
     "step": {
       "user": {

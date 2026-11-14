@@ -1,0 +1,74 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "occupancy_helper": {
+        "name": "Pembantu Kehadiran"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Buat Pembantu Kehadiran",
+        "description": "Gabungkan beberapa sensor gerakan, keberadaan, atau kontak menjadi entitas kehadiran terpadu dengan logika yang dapat dikonfigurasi, waktu tunda, entitas timer terkait, dan ikon dinamis.",
+        "data": {
+          "name": "Nama",
+          "sensors": "Sensor yang Dipantau",
+          "logic": "Logika Evaluasi",
+          "delay_off": "Durasi Tunda Mati Manual",
+          "timer_entity": "Timer atau Pembantu Durasi Terkait (opsional)",
+          "active_icon": "Ikon Terisi (opsional)",
+          "idle_icon": "Ikon Kosong / Idle (opsional)",
+          "device_class": "Kelas Perangkat"
+        },
+        "data_description": {
+          "sensors": "Pilih sensor biner (keberadaan, gerakan) atau pembantu boolean.",
+          "delay_off": "Pertahankan ruangan ditandai terisi selama durasi ini setelah semua sensor mati.",
+          "timer_entity": "Pembantu terkait opsional: Pilih entitas 'timer.*' untuk hitung mundur visual, atau 'input_number.*' untuk durasi tunda dinamis.",
+          "active_icon": "Ikon yang ditampilkan saat ruangan terisi (mis. mdi:motion-sensor).",
+          "idle_icon": "Ikon yang ditampilkan saat ruangan kosong (mis. mdi:motion-sensor-off)."
+        }
+      }
+    },
+    "error": {
+      "empty_name": "Silakan masukkan nama.",
+      "empty_sensors": "Silakan pilih setidaknya satu sensor."
+    }
+  },
+  "options": {
+    "step": {
+      "base": {
+        "title": "Integrasi Pembantu Kehadiran",
+        "description": "Pembantu Kehadiran aktif dan siap. Anda dapat membuat pembantu kehadiran ruangan kapan saja di Pengaturan > Perangkat & Layanan > Pembantu > Buat Pembantu."
+      },
+      "init": {
+        "title": "Konfigurasi Pembantu Kehadiran",
+        "description": "Sesuaikan sensor, logika evaluasi, waktu tunda, pembantu timer terkait, atau ikon kustom.",
+        "data": {
+          "sensors": "Sensor yang Dipantau",
+          "logic": "Logika Evaluasi",
+          "delay_off": "Durasi Tunda Mati Manual",
+          "timer_entity": "Timer atau Pembantu Durasi Terkait (opsional)",
+          "active_icon": "Ikon Terisi (opsional)",
+          "idle_icon": "Ikon Kosong / Idle (opsional)",
+          "device_class": "Kelas Perangkat"
+        },
+        "data_description": {
+          "delay_off": "Pertahankan ruangan ditandai terisi selama durasi ini setelah semua sensor mati.",
+          "timer_entity": "Pilih entitas 'timer.*' untuk hitung mundur visual, atau 'input_number.*' untuk durasi tunda dinamis."
+        }
+      }
+    },
+    "error": {
+      "empty_sensors": "Silakan pilih setidaknya satu sensor."
+    }
+  },
+  "selector": {
+    "logic": {
+      "options": {
+        "or": "OR (Terisi jika SALAH SATU sensor aktif)",
+        "and": "AND (Terisi hanya jika SEMUA sensor aktif)"
+      }
+    }
+  }
+}

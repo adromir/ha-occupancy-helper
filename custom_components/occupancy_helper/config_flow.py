@@ -73,7 +73,14 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_SENSORS): selector.EntitySelector(
                     selector.EntitySelectorConfig(
                         multiple=True,
-                        domain=["binary_sensor", "sensor", "input_boolean"],
+                        filter=[
+                            selector.EntityFilterSelectorConfig(
+                                domain="binary_sensor",
+                                device_class=["occupancy", "motion", "presence"],
+                            ),
+                            selector.EntityFilterSelectorConfig(domain="input_boolean"),
+                            selector.EntityFilterSelectorConfig(domain="sensor"),
+                        ],
                     )
                 ),
                 vol.Required(
@@ -193,7 +200,14 @@ class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):
                 ): selector.EntitySelector(
                     selector.EntitySelectorConfig(
                         multiple=True,
-                        domain=["binary_sensor", "sensor", "input_boolean"],
+                        filter=[
+                            selector.EntityFilterSelectorConfig(
+                                domain="binary_sensor",
+                                device_class=["occupancy", "motion", "presence"],
+                            ),
+                            selector.EntityFilterSelectorConfig(domain="input_boolean"),
+                            selector.EntityFilterSelectorConfig(domain="sensor"),
+                        ],
                     )
                 ),
                 vol.Required(

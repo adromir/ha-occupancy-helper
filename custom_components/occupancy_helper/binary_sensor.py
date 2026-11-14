@@ -101,13 +101,18 @@ class OccupancyBinarySensor(BinarySensorEntity):
 
     _attr_should_poll = False
     _attr_has_entity_name = True
+    _attr_translation_key = "occupancy_helper"
 
     def __init__(self, entry: ConfigEntry) -> None:
         """Initialize the sensor."""
         self._entry = entry
         config = {**entry.data, **entry.options}
 
-        self._attr_name = config.get(CONF_NAME, DEFAULT_NAME)
+        custom_name = config.get(CONF_NAME)
+        if custom_name and custom_name not in (DEFAULT_NAME, "Occupancy Helper", "Anwesenheits-Helfer", "Pembantu Kehadiran"):
+            self._attr_name = custom_name
+        else:
+            self._attr_name = None
         self._attr_unique_id = f"{entry.entry_id}_occupancy"
 
         self._sensors: list[str] = config.get(CONF_SENSORS, [])
