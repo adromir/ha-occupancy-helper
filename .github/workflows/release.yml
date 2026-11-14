@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name to release (e.g. v1.0.3)'
+        required: false
+
+jobs:
+  release:
+    name: Validate Integration & Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate Integration
+        run: |
+          if [ ! -f "custom_components/occupancy_helper/manifest.json" ]; then
+            echo "Error: custom_components/occupancy_helper/manifest.json not found!"
+            exit 1
+          fi
+          if [ ! -f "hacs.json" ]; then
+            echo "Error: hacs.json not found!"
+            exit 1
+          fi
+          python -m compileall -q custom_components/occupancy_helper
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          name: Occupancy Helper ${{ github.event.inputs.tag_name || github.ref_name }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
