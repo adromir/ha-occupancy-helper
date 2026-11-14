@@ -5,6 +5,7 @@
 </p>
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=adromir&repository=ha-occupancy-helper&category=integration)
+[![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/adromir)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/default)
 [![GitHub Release](https://img.shields.io/github/v/release/adromir/ha-occupancy-helper?style=for-the-badge&color=blue)](https://github.com/adromir/ha-occupancy-helper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
@@ -58,7 +59,7 @@ With the **Occupancy Helper**, you create and configure this entire logic in sec
 - 🎨 **Dynamic Contextual Icons**: Choose custom icons for both active and clear states (e.g. `mdi:bed` when occupied, `mdi:bed-empty` when clear; or `mdi:sofa` / `mdi:sofa-outline`).
 - 🏷️ **Rich State Attributes**: Exposes `sensors`, `active_sensors`, `logic`, `delay_off`, `delay_off_active`, and `last_trigger_sensor`.
 - ⚙️ **Full Reconfiguration**: Modify sensors, duration, or logic at any time via the UI Options Flow without reloading Home Assistant.
-- 🌐 **Bilingual Support**: Fully localized in English and German.
+- 🌐 **Multilingual Support**: Fully localized in English, German (`de`), and Indonesian (`id`).
 
 ---
 
