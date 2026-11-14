@@ -87,7 +87,7 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     CONF_LOGIC, default=DEFAULT_LOGIC
                 ): selector.SelectSelector(
                     selector.SelectSelectorConfig(
-                        options=[{"value": l, "label": l} for l in LOGIC_OPTIONS],
+                        options=[{"value": logic_mode, "label": logic_mode} for logic_mode in LOGIC_OPTIONS],
                         mode=selector.SelectSelectorMode.DROPDOWN,
                         translation_key="logic",
                     )
@@ -225,7 +225,7 @@ class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):
                     default=current_data.get(CONF_LOGIC, DEFAULT_LOGIC),
                 ): selector.SelectSelector(
                     selector.SelectSelectorConfig(
-                        options=[{"value": l, "label": l} for l in LOGIC_OPTIONS],
+                        options=[{"value": logic_mode, "label": logic_mode} for logic_mode in LOGIC_OPTIONS],
                         mode=selector.SelectSelectorMode.DROPDOWN,
                         translation_key="logic",
                     )
