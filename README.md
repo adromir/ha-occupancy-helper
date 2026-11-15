@@ -17,6 +17,21 @@ Eliminates repetitive, complex YAML Jinja2 template sensors and manual timers fo
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/adromir/ha-occupancy-helper/main/Screenshots/occupancy-helper-modal.png" alt="Occupancy Helper Configuration Dialog" width="800">
+</p>
+<p align="center">
+  <em>Configuration options dialog: easily customize sensor inputs, evaluation logic, delay-off hold times, and linked timer helpers directly in the UI.</em>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/adromir/ha-occupancy-helper/main/Screenshots/occupancy-helper-overview.png" alt="Occupancy Helper Overview in Home Assistant" width="800">
+</p>
+
+---
+
 ## 🎯 Why You Need This
 
 Accurate room presence in smart homes almost always requires **combining multiple sensors**:
