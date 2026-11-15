@@ -145,9 +145,11 @@ class OccupancyHelperConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 class OccupancyHelperBaseOptionsFlow(config_entries.OptionsFlow):
     """Handle options for base Occupancy Helper integration."""
 
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+    def __init__(self, config_entry: config_entries.ConfigEntry | None = None) -> None:
         """Initialize base options flow."""
-        self._config_entry = config_entry
+        super().__init__()
+        if config_entry is not None:
+            self._config_entry = config_entry
 
     @property
     def config_entry(self) -> config_entries.ConfigEntry:
@@ -176,9 +178,11 @@ class OccupancyHelperBaseOptionsFlow(config_entries.OptionsFlow):
 class OccupancyHelperOptionsFlow(config_entries.OptionsFlow):
     """Handle options for Occupancy Helper."""
 
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+    def __init__(self, config_entry: config_entries.ConfigEntry | None = None) -> None:
         """Initialize options flow."""
-        self._config_entry = config_entry
+        super().__init__()
+        if config_entry is not None:
+            self._config_entry = config_entry
 
     @property
     def config_entry(self) -> config_entries.ConfigEntry:
