@@ -1,8 +1,9 @@
 {
+  "title": "Belegungs-Helfer",
   "entity": {
     "binary_sensor": {
       "occupancy_helper": {
-        "name": "Anwesenheits-Helfer"
+        "name": "Belegungs-Helfer"
       }
     }
   },
@@ -37,10 +38,6 @@
   },
   "options": {
     "step": {
-      "base": {
-        "title": "Occupancy Helper Integration",
-        "description": "Occupancy Helper ist aktiv und einsatzbereit. Du kannst neue Belegungs-Helfer jederzeit unter Einstellungen > Geräte & Dienste > Helfer > Helfer erstellen anlegen."
-      },
       "init": {
         "title": "Belegungs-Helfer bearbeiten",
         "description": "Passe überwachte Sensoren, Logik, Nachlaufzeit, verknüpften Timer-Helfer oder benutzerdefinierte Icons an.",

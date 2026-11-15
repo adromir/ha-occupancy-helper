@@ -1,15 +1,16 @@
 {
+  "title": "Pembantu Okupansi",
   "entity": {
     "binary_sensor": {
       "occupancy_helper": {
-        "name": "Pembantu Kehadiran"
+        "name": "Pembantu Okupansi"
       }
     }
   },
   "config": {
     "step": {
       "user": {
-        "title": "Buat Pembantu Kehadiran",
+        "title": "Buat Pembantu Okupansi",
         "description": "Gabungkan beberapa sensor gerakan, keberadaan, atau kontak menjadi entitas kehadiran terpadu dengan logika yang dapat dikonfigurasi, waktu tunda, entitas timer terkait, dan ikon dinamis.",
         "data": {
           "name": "Nama",
@@ -25,8 +26,8 @@
           "sensors": "Pilih sensor biner (keberadaan, gerakan) atau pembantu boolean.",
           "delay_off": "Pertahankan ruangan ditandai terisi selama durasi ini setelah semua sensor mati.",
           "timer_entity": "Pembantu terkait opsional: Pilih entitas 'timer.*' untuk hitung mundur visual, atau 'input_number.*' untuk durasi tunda dinamis.",
-          "active_icon": "Ikon yang ditampilkan saat ruangan terisi (mis. mdi:motion-sensor).",
-          "idle_icon": "Ikon yang ditampilkan saat ruangan kosong (mis. mdi:motion-sensor-off)."
+          "active_icon": "Ikon yang ditampilkan saat ruangan terisi (mis. mdi:bed atau mdi:motion-sensor).",
+          "idle_icon": "Ikon yang ditampilkan saat ruangan kosong (mis. mdi:bed-empty atau mdi:motion-sensor-off)."
         }
       }
     },
@@ -37,12 +38,8 @@
   },
   "options": {
     "step": {
-      "base": {
-        "title": "Integrasi Pembantu Kehadiran",
-        "description": "Pembantu Kehadiran aktif dan siap. Anda dapat membuat pembantu kehadiran ruangan kapan saja di Pengaturan > Perangkat & Layanan > Pembantu > Buat Pembantu."
-      },
       "init": {
-        "title": "Konfigurasi Pembantu Kehadiran",
+        "title": "Konfigurasi Pembantu Okupansi",
         "description": "Sesuaikan sensor, logika evaluasi, waktu tunda, pembantu timer terkait, atau ikon kustom.",
         "data": {
           "sensors": "Sensor yang Dipantau",
